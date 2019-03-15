@@ -198,7 +198,7 @@ untuk membuat file makan_sehat#.txt ketika selisih waktunya <=30 detik adalah,
 ```
 
 5. Kerjakan poin a dan b di bawah:<br>
-a. Buatlah program c untuk mencatat log setiap menit dari file log pada syslog ke /home/[user]/log/[dd:MM:yyyy-hh:mm]/log#.log
+a. Buatlah program c untuk mencatat log setiap menit dari file log pada syslog ke /home/[user]/log/[dd:MM:yyyy-hh:mm]/log#.log<br>
 Ket:<br>
 Per 30 menit membuat folder /[dd:MM:yyyy-hh:mm]<br>
 Per menit memasukkan log#.log ke dalam folder tersebut<br>
