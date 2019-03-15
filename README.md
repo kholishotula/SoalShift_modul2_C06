@@ -6,6 +6,46 @@ Nandha Himawan        05111740000180
 1. Elen mempunyai pekerjaan pada studio sebagai fotografer. Suatu hari ada seorang klien yang bernama Kusuma yang meminta untuk mengubah nama file yang memiliki ekstensi .png menjadi “[namafile]_grey.png”. Karena jumlah file yang diberikan Kusuma tidak manusiawi, maka Elen meminta bantuan kalian untuk membuat suatu program C yang dapat mengubah nama secara otomatis dan diletakkan pada direktori /home/[user]/modul2/gambar.
 Catatan : Tidak boleh menggunakan crontab.
 
+Langkah-langkah :
+
+-	Membuka direktori file
+
+> current = opendir(".");
+
+-	Loop untuk mengecek semua file yang ada di direktori tersebut. Jika file tersebut berekstensi .png, maka tambahkan nama file (lama) tersebut ke array untuk nama file baru (baru) yang sebelumnya telah berisi /home/maya/modul2/gambar/. Kemudian hapus 4 char terakhir (.png) dan tambahkan “_grey.png” pada array nama file baru (baru). Lalu, pindahkan file tersebut (lama) ke direktori dengan nama file baru (baru)
+
+> strcpy(baru, "/home/maya/modul2/gambar/"); <br>
+while( (temp = readdir(current)) != NULL) <br>
+{ <br>
+        int length = strlen(temp->d_name); <br>
+        lama = temp->d_name; <br>
+        if(lama[length-4] == '.' && lama[length-3] == 'p' && lama[length-2] == 'n' && lama[length-1] == 'g') <br>
+        { <br>
+            strcat(baru, lama); <br>
+            length = strlen(baru); <br>
+            baru[length-4] = '\0'; <br>
+            strcat(baru, "_grey.png"); <br>
+            char *argv[4] = {"mv", lama, baru, NULL}; <br>
+            execv("/bin/mv", argv); <br>
+        } <br>
+}
+
+Contoh ilustrasi : <br>
+Baru = /home/maya/modul2/gambar/ <br>
+--ada file dalam direktori tersebut <br>
+Temp = file “fileku.png” <br>
+Length = 11 <br>
+Lama = fileku.png <br>
+----masuk kondisi if, karena file berekstensi .png <br>
+Baru = /home/maya/modul2/gambar/fileku.png <br>
+Length = 36 <br>
+Baru = /home/maya/modul2/gambar/fileku <br>
+Baru = /home/maya/modul2/gambar/fileku_grey.png <br>
+Eksekusi mv fileku.png /home/maya/modul2/gambar/fileku_grey.png <br>
+-	Setelah itu, tutup direktori tersebut
+
+> closedir(current);
+
 2. Pada suatu hari Kusuma dicampakkan oleh Elen karena Elen dimenangkan oleh orang lain. Semua kenangan tentang Elen berada pada file bernama “elen.ku” pada direktori “hatiku”. Karena sedih berkepanjangan, tugas kalian sebagai teman Kusuma adalah membantunya untuk menghapus semua kenangan tentang Elen dengan membuat program C yang bisa mendeteksi owner dan group dan menghapus file “elen.ku” setiap 3 detik dengan syarat ketika owner dan grupnya menjadi “www-data”. Ternyata kamu memiliki kendala karena permission pada file “elen.ku”. Jadi, ubahlah permissionnya menjadi 777. Setelah kenangan tentang Elen terhapus, maka Kusuma bisa move on.
 Catatan: Tidak boleh menggunakan crontab
 
