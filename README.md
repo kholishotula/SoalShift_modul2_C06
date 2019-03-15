@@ -50,17 +50,17 @@ while( (temp = readdir(current)) != NULL) <br>
 }
 
 Contoh ilustrasi : <br>
-dirlama = /home/maya/sisop/modul2/Prak2/
+dirlama = /home/maya/sisop/modul2/Prak2/ <br>
 --ada file dalam direktori tersebut <br>
-Temp = struct dirent file “fileku.png” <br>
-Length = 11 <br>
-Lama = fileku.png <br>
+temp = struct dirent file “fileku.png” <br>
+length = 11 <br>
+lama = fileku.png <br>
 ----masuk kondisi if, karena file berekstensi .png <br>
 baru = /home/maya/modul2/gambar/ <br>
-Baru = /home/maya/modul2/gambar/fileku.png <br>
-Length = 36 <br>
-Baru = /home/maya/modul2/gambar/fileku <br>
-Baru = /home/maya/modul2/gambar/fileku_grey.png <br>
+baru = /home/maya/modul2/gambar/fileku.png <br>
+length = 36 <br>
+baru = /home/maya/modul2/gambar/fileku <br>
+baru = /home/maya/modul2/gambar/fileku_grey.png <br>
 dirlama = /home/maya/sisop/modul2/Prak2/fileku.png <br>
 dilakukan rename /home/maya/sisop/modul2/Prak2/fileku.png /home/maya/modul2/gambar/fileku_grey.png <br>
 -	Setelah itu, tutup direktori tersebut
