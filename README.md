@@ -44,7 +44,6 @@ while( (temp = readdir(current)) != NULL) <br>
             strcat(baru, "_grey.png"); <br>
             strcat(dirlama, lama); <br>
             rename(dirlama, baru); <br>
-            memset(baru, 0, 200); <br>
         } <br>
 } <br>
 }
