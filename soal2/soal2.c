@@ -40,7 +40,7 @@ int main() {
   close(STDERR_FILENO);
 
   while(1) {
-	      struct stat elen;
+	struct stat elen;
         char dir[100];
         strcpy(dir, "/home/maya/sisop/modul2/Prak2/hatiku/elen.ku");
         stat(dir, &elen);
@@ -61,7 +61,7 @@ int main() {
         {
                 chmod(dir, 0777);
                 remove(dir);
-		            sleep(3);
+	        sleep(3);
         }
   }
   
