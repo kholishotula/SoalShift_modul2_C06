@@ -116,6 +116,51 @@ Catatan:
 - Gunakan minimal 3 proses yang diakhiri dengan exec.
 - Gunakan pipe
 - Pastikan file daftar.txt dapat diakses dari text editor
+Langkah - langkah :
+unzip file dengan child proccess pertama, 
+```
+    if(child1 == 0){
+      execl("/usr/bin/unzip","unzip", "campur2.zip", NULL);
+    }
+```
+dapat kan list dalam folder tersebut dengan child proccess kedua, 
+```
+        if(child2==0){
+          close(p1[0]);
+          close(p1[2]);
+          close(p1[3]);
+          dup2(p1[1], STDOUT_FILENO);
+          close(p1[1]);
+          execl("/bin/ls", "ls" ,"campur2", NULL);
+        }
+```
+ambil yang ekstensi nya .txt saja dengan grep pada child proccess ketiga
+```
+            if(child3==0){
+              close(p1[1]);
+              dup2(p1[0],STDIN_FILENO);
+              close(p1[0]);
+
+              close(p1[2]);
+              dup2(p1[3],STDOUT_FILENO);
+              close(p1[3]);
+              execl("/bin/grep", "grep" ,".txt$", NULL);
+            }
+```
+tuliskan outputnya kedalam file daftar.txt dengan parent proccess dari child proccess ketiga
+```
+else{
+              close(p1[1]);
+              close(p1[0]);
+              close(p1[3]);
+              int x = read(p1[2],isi,sizeof(isi));
+              close(p1[2]);
+              FILE* output;
+              output = fopen("daftar.txt","w+");
+              fputs(isi,output);
+              fclose(output);
+            }
+```
 
 4. Dalam direktori /home/[user]/Documents/makanan terdapat file makan_enak.txt yang berisikan daftar makanan terkenal di Surabaya. Elen sedang melakukan diet dan seringkali tergiur untuk membaca isi makan_enak.txt karena ngidam makanan enak. Sebagai teman yang baik, Anda membantu Elen dengan membuat program C yang berjalan setiap 5 detik untuk memeriksa apakah file makan_enak.txt pernah dibuka setidaknya 30 detik yang lalu (rentang 0 - 30 detik).
 Jika file itu pernah dibuka, program Anda akan membuat 1 file makan_sehat#.txt di direktori /home/[user]/Documents/makanan dengan '#' berisi bilangan bulat dari 1 sampai tak hingga untuk mengingatkan Elen agar berdiet.
