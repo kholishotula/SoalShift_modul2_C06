@@ -77,28 +77,35 @@ Langkah-langkah : <br>
 char dir[100]; <br>
 strcpy(dir, "/home/maya/sisop/modul2/Prak2/hatiku/elen.ku");
 
--	Jalankan stat untuk mengetahui status file
+elen adalah variabel untuk menyimpan status dari file dalam bentuk struct <br>
+dir adalah string untuk menyimpan nama file elen.ku dan path nya
+
+-	Jalankan stat untuk mengetahui status file elen.ku
 
 > stat(dir, &elen);
 
 -	Dapatkan id owner dan group
 
-struct passwd *owner = getpwuid(elen.st_uid);
+> struct passwd *owner = getpwuid(elen.st_uid); <br>
 struct group *group = getgrgid(elen.st_gid);
+
 -	Dapatkan nama owner dan group
-char owner_name[100];
-strcpy(owner_name, owner->pw_name);
-char group_name[100];
-strcpy(group_name, group->gr_name);
+
+> char owner_name[100]; <br>
+strcpy(owner_name, owner->pw_name); <br>
+char group_name[100]; <br>
+strcpy(group_name, group->gr_name); <br>
+
 -	Cek apakah nama owner dan nama group adalah www-data. Jika ya, maka ubah permission menjadi 777, lalu hapus file elen.ku setiap 3 detik
-char data[100];
-strcpy(data, "www-data");
-if(strcmp(owner_name, data)==0 && strcmp(group_name, data)==0)
-{
-chmod(dir, 0777);
-remove(dir);
-sleep(3);
-        	}
+
+> char data[100]; <br>
+strcpy(data, "www-data"); <br>
+if(strcmp(owner_name, data)==0 && strcmp(group_name, data)==0) <br>
+{ <br>
+chmod(dir, 0777); <br>
+remove(dir); <br>
+sleep(3); <br>
+}
 
 3. Diberikan file campur2.zip. Di dalam file tersebut terdapat folder “campur2”. 
 Buatlah program C yang dapat :
