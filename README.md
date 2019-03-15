@@ -9,13 +9,13 @@ Catatan : Tidak boleh menggunakan crontab.
 Langkah-langkah :
 
 - Inisialisasi variabel
-
-> DIR *current; <br>
-struct dirent *temp; <br>
-char *lama; <br>
-char baru[200]; <br>
+```
+DIR *current;
+struct dirent *temp;
+char *lama;
+char baru[200];
 char dirlama[100];
-
+```
 current untuk menyimpan direktori yang sedang dicek <br>
 temp adalah struct dirent untuk menyimpan file yang dicek dalam bentuk struct  <br>
 lama adalah string untuk menyimpan nama file lama <br>
@@ -23,31 +23,31 @@ baru adalah string untuk menyimpan direktori dan nama file baru <br>
 dirlama adalah string untuk menyimpan direktori file lama <br>
 
 -	Membuka direktori file dan menyimpan direktori tersebut
-
-> current = opendir("/home/maya/sisop/modul2/Prak2/"); <br>
+```
+current = opendir("/home/maya/sisop/modul2/Prak2/");
 strcpy(dirlama, "/home/maya/sisop/modul2/Prak2/");
-
+```
 -	Loop untuk mengecek semua file yang ada di direktori tersebut. Jika file tersebut berekstensi .png, maka tambahkan nama file (lama) tersebut ke array untuk nama file baru (baru) yang sebelumnya telah berisi /home/maya/modul2/gambar/. Kemudian hapus 4 char terakhir (.png) dan tambahkan “_grey.png” pada array nama file baru (baru). Lalu, rename file tersebut (dirlama) ke direktori dengan nama file baru (baru)
-
-> if(current) <br>
-{ <br>
-while( (temp = readdir(current)) != NULL) <br>
-{ <br>
-        int length = strlen(temp->d_name); <br>
-        lama = temp->d_name; <br>
-        if(lama[length-4] == '.' && lama[length-3] == 'p' && lama[length-2] == 'n' && lama[length-1] == 'g') <br>
-        { <br>
-            strcpy(baru, "/home/maya/modul2/gambar/"); <br>
-            strcat(baru, lama); <br>
-            length = strlen(baru); <br>
-            baru[length-4] = '\0'; <br>
-            strcat(baru, "_grey.png"); <br>
-            strcat(dirlama, lama); <br>
-            rename(dirlama, baru); <br>
-        } <br>
-} <br>
+```
+if(current)
+{
+        while( (temp = readdir(current)) != NULL)
+        {
+                int length = strlen(temp->d_name);
+                lama = temp->d_name;
+                if(lama[length-4] == '.' && lama[length-3] == 'p' && lama[length-2] == 'n' && lama[length-1] == 'g')
+                {
+                    strcpy(baru, "/home/maya/modul2/gambar/");
+                    strcat(baru, lama);
+                    length = strlen(baru);
+                    baru[length-4] = '\0';
+                    strcat(baru, "_grey.png");
+                    strcat(dirlama, lama);
+                    rename(dirlama, baru);
+                }
+        }
 }
-
+```
 Contoh ilustrasi : <br>
 dirlama = /home/maya/sisop/modul2/Prak2/ <br>
 --ada file dalam direktori tersebut <br>
@@ -63,50 +63,50 @@ baru = /home/maya/modul2/gambar/fileku_grey.png <br>
 dirlama = /home/maya/sisop/modul2/Prak2/fileku.png <br>
 dilakukan rename /home/maya/sisop/modul2/Prak2/fileku.png /home/maya/modul2/gambar/fileku_grey.png <br>
 -	Setelah itu, tutup direktori tersebut
-
-> closedir(current);
-
+```
+closedir(current);
+```
 2. Pada suatu hari Kusuma dicampakkan oleh Elen karena Elen dimenangkan oleh orang lain. Semua kenangan tentang Elen berada pada file bernama “elen.ku” pada direktori “hatiku”. Karena sedih berkepanjangan, tugas kalian sebagai teman Kusuma adalah membantunya untuk menghapus semua kenangan tentang Elen dengan membuat program C yang bisa mendeteksi owner dan group dan menghapus file “elen.ku” setiap 3 detik dengan syarat ketika owner dan grupnya menjadi “www-data”. Ternyata kamu memiliki kendala karena permission pada file “elen.ku”. Jadi, ubahlah permissionnya menjadi 777. Setelah kenangan tentang Elen terhapus, maka Kusuma bisa move on.
 Catatan: Tidak boleh menggunakan crontab
 
 Langkah-langkah : <br>
 
 -	Inisialisasi variabel
-
-> struct stat elen; <br>
-char dir[100]; <br>
+```
+struct stat elen;
+char dir[100];
 strcpy(dir, "/home/maya/sisop/modul2/Prak2/hatiku/elen.ku");
-
+```
 elen adalah variabel untuk menyimpan status dari file dalam bentuk struct <br>
 dir adalah string untuk menyimpan nama file elen.ku dan path nya
 
 -	Jalankan stat untuk mengetahui status file elen.ku
-
-> stat(dir, &elen);
-
+```
+stat(dir, &elen);
+```
 -	Dapatkan id owner dan group
-
-> struct passwd *owner = getpwuid(elen.st_uid); <br>
+```
+struct passwd *owner = getpwuid(elen.st_uid);
 struct group *group = getgrgid(elen.st_gid);
-
+```
 -	Dapatkan nama owner dan group
-
-> char owner_name[100]; <br>
-strcpy(owner_name, owner->pw_name); <br>
-char group_name[100]; <br>
-strcpy(group_name, group->gr_name); <br>
-
+```
+char owner_name[100];
+strcpy(owner_name, owner->pw_name);
+char group_name[100];
+strcpy(group_name, group->gr_name);
+```
 -	Cek apakah nama owner dan nama group adalah www-data. Jika ya, maka ubah permission menjadi 777, lalu hapus file elen.ku setiap 3 detik
-
-> char data[100]; <br>
-strcpy(data, "www-data"); <br>
-if(strcmp(owner_name, data)==0 && strcmp(group_name, data)==0) <br>
-{ <br>
-chmod(dir, 0777); <br>
-remove(dir); <br>
-sleep(3); <br>
+```
+char data[100];
+strcpy(data, "www-data");
+if(strcmp(owner_name, data)==0 && strcmp(group_name, data)==0)
+{
+        chmod(dir, 0777);
+        remove(dir);
+        sleep(3);
 }
-
+```
 3. Diberikan file campur2.zip. Di dalam file tersebut terdapat folder “campur2”. 
 Buatlah program C yang dapat :
 i)  mengekstrak file zip tersebut.
