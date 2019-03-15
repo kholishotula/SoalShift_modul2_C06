@@ -69,6 +69,37 @@ dilakukan rename /home/maya/sisop/modul2/Prak2/fileku.png /home/maya/modul2/gamb
 2. Pada suatu hari Kusuma dicampakkan oleh Elen karena Elen dimenangkan oleh orang lain. Semua kenangan tentang Elen berada pada file bernama “elen.ku” pada direktori “hatiku”. Karena sedih berkepanjangan, tugas kalian sebagai teman Kusuma adalah membantunya untuk menghapus semua kenangan tentang Elen dengan membuat program C yang bisa mendeteksi owner dan group dan menghapus file “elen.ku” setiap 3 detik dengan syarat ketika owner dan grupnya menjadi “www-data”. Ternyata kamu memiliki kendala karena permission pada file “elen.ku”. Jadi, ubahlah permissionnya menjadi 777. Setelah kenangan tentang Elen terhapus, maka Kusuma bisa move on.
 Catatan: Tidak boleh menggunakan crontab
 
+Langkah-langkah : <br>
+
+-	Inisialisasi variabel
+
+> struct stat elen; <br>
+char dir[100]; <br>
+strcpy(dir, "/home/maya/sisop/modul2/Prak2/hatiku/elen.ku");
+
+-	Jalankan stat untuk mengetahui status file
+
+> stat(dir, &elen);
+
+-	Dapatkan id owner dan group
+
+struct passwd *owner = getpwuid(elen.st_uid);
+struct group *group = getgrgid(elen.st_gid);
+-	Dapatkan nama owner dan group
+char owner_name[100];
+strcpy(owner_name, owner->pw_name);
+char group_name[100];
+strcpy(group_name, group->gr_name);
+-	Cek apakah nama owner dan nama group adalah www-data. Jika ya, maka ubah permission menjadi 777, lalu hapus file elen.ku setiap 3 detik
+char data[100];
+strcpy(data, "www-data");
+if(strcmp(owner_name, data)==0 && strcmp(group_name, data)==0)
+{
+chmod(dir, 0777);
+remove(dir);
+sleep(3);
+        	}
+
 3. Diberikan file campur2.zip. Di dalam file tersebut terdapat folder “campur2”. 
 Buatlah program C yang dapat :
 i)  mengekstrak file zip tersebut.
