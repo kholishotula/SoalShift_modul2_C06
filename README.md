@@ -8,40 +8,61 @@ Catatan : Tidak boleh menggunakan crontab.
 
 Langkah-langkah :
 
--	Membuka direktori file
+- Inisialisasi variabel
 
-> current = opendir(".");
+> DIR *current; <br>
+struct dirent *temp; <br>
+char *lama; <br>
+char baru[200]; <br>
+char dirlama[100];
 
--	Loop untuk mengecek semua file yang ada di direktori tersebut. Jika file tersebut berekstensi .png, maka tambahkan nama file (lama) tersebut ke array untuk nama file baru (baru) yang sebelumnya telah berisi /home/maya/modul2/gambar/. Kemudian hapus 4 char terakhir (.png) dan tambahkan “_grey.png” pada array nama file baru (baru). Lalu, pindahkan file tersebut (lama) ke direktori dengan nama file baru (baru)
+current untuk menyimpan direktori yang sedang dicek <br>
+temp adalah struct dirent untuk menyimpan file yang dicek dalam bentuk struct  <br>
+lama adalah string untuk menyimpan nama file lama <br>
+baru adalah string untuk menyimpan direktori dan nama file baru <br>
+dirlama adalah string untuk menyimpan direktori file lama <br>
 
-> strcpy(baru, "/home/maya/modul2/gambar/"); <br>
+-	Membuka direktori file dan menyimpan direktori tersebut
+
+> current = opendir("/home/maya/sisop/modul2/Prak2/"); <br>
+strcpy(dirlama, "/home/maya/sisop/modul2/Prak2/");
+
+-	Loop untuk mengecek semua file yang ada di direktori tersebut. Jika file tersebut berekstensi .png, maka tambahkan nama file (lama) tersebut ke array untuk nama file baru (baru) yang sebelumnya telah berisi /home/maya/modul2/gambar/. Kemudian hapus 4 char terakhir (.png) dan tambahkan “_grey.png” pada array nama file baru (baru). Lalu, rename file tersebut (dirlama) ke direktori dengan nama file baru (baru)
+
+> if(current) <br>
+{ <br>
 while( (temp = readdir(current)) != NULL) <br>
 { <br>
         int length = strlen(temp->d_name); <br>
         lama = temp->d_name; <br>
         if(lama[length-4] == '.' && lama[length-3] == 'p' && lama[length-2] == 'n' && lama[length-1] == 'g') <br>
         { <br>
+            strcpy(baru, "/home/maya/modul2/gambar/"); <br>
             strcat(baru, lama); <br>
             length = strlen(baru); <br>
             baru[length-4] = '\0'; <br>
             strcat(baru, "_grey.png"); <br>
-            char *argv[4] = {"mv", lama, baru, NULL}; <br>
-            execv("/bin/mv", argv); <br>
+            strcat(dirlama, lama); <br>
+            rename(dirlama, baru); <br>
+            memset(baru, 0, 200); <br>
         } <br>
+} <br>
 }
 
 Contoh ilustrasi : <br>
-Baru = /home/maya/modul2/gambar/ <br>
+dirlama = /home/maya/sisop/modul2/Prak2/
 --ada file dalam direktori tersebut <br>
-Temp = file “fileku.png” <br>
+Temp = struct dirent file “fileku.png” <br>
 Length = 11 <br>
 Lama = fileku.png <br>
 ----masuk kondisi if, karena file berekstensi .png <br>
+baru = /home/maya/modul2/gambar/ <br>
 Baru = /home/maya/modul2/gambar/fileku.png <br>
 Length = 36 <br>
 Baru = /home/maya/modul2/gambar/fileku <br>
 Baru = /home/maya/modul2/gambar/fileku_grey.png <br>
-Eksekusi mv fileku.png /home/maya/modul2/gambar/fileku_grey.png <br>
+dirlama = /home/maya/sisop/modul2/Prak2/fileku.png <br>
+dilakukan rename /home/maya/sisop/modul2/Prak2/fileku.png /home/maya/modul2/gambar/fileku_grey.png <br>
 -	Setelah itu, tutup direktori tersebut
 
 > closedir(current);
