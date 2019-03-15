@@ -40,35 +40,32 @@ int main() {
 
 while(1) {
  
-  DIR *current;
+	DIR *current;
 	struct dirent *temp;
- 	current = opendir("/home/maya/sisop/modul2/Prak2/");
- 	char *lama;
- 	char baru[200];
-	char dirlama[100];
-	strcpy(dirlama, "/home/maya/sisop/modul2/Prak2/");
+	current = opendir("/home/maya/sisop/modul2/Prak2/");
+	char *lama;
+  	char baru[200];
+  	char dirlama[100];
+  	strcpy(dirlama, "/home/maya/sisop/modul2/Prak2/");
 
- 	if(current)
-	{
-    		while( (temp = readdir(current)) != NULL)
-     	 	{
-        		int length = strlen(temp->d_name);
-			      lama = temp->d_name;
-        		if(lama[length-4] == '.' && lama[length-3] == 'p' && lama[length-2] == 'n' && lama[length-1] == 'g')
-        		{
-            			strcpy(baru, "/home/maya/modul2/gambar/");
-            			strcat(baru, lama);
-			            length = strlen(baru);
-            			baru[length-4] = '\0';
-            			strcat(baru, "_grey.png");
-          				strcat(dirlama, lama);
-            			rename(dirlama, baru);
-				          memset(baru, 0, 200);
-        		}
-    		}
-	}
-  closedir(current);
-  sleep(5);
+	while( (temp = readdir(current)) != NULL)
+     	{
+        	int length = strlen(temp->d_name);
+		lama = temp->d_name;
+        	if(lama[length-4] == '.' && lama[length-3] == 'p' && lama[length-2] == 'n' && lama[length-1] == 'g')
+        	{
+            		strcpy(baru, "/home/maya/modul2/gambar/");
+            		strcat(baru, lama);
+		        length = strlen(baru);
+            		baru[length-4] = '\0';
+            		strcat(baru, "_grey.png");
+          		strcat(dirlama, lama);
+            		rename(dirlama, baru);
+        	}
+    	}
+	
+  	closedir(current);
+  	sleep(5);
 }
   
   exit(EXIT_SUCCESS);
