@@ -29,23 +29,20 @@ strcpy(dirlama, "/home/maya/sisop/modul2/Prak2/");
 ```
 -	Loop untuk mengecek semua file yang ada di direktori tersebut. Jika file tersebut berekstensi .png, maka tambahkan nama file (lama) tersebut ke array untuk nama file baru (baru) yang sebelumnya telah berisi /home/maya/modul2/gambar/. Kemudian hapus 4 char terakhir (.png) dan tambahkan “_grey.png” pada array nama file baru (baru). Lalu, rename file tersebut (dirlama) ke direktori dengan nama file baru (baru)
 ```
-if(current)
+while( (temp = readdir(current)) != NULL)
 {
-        while( (temp = readdir(current)) != NULL)
-        {
-                int length = strlen(temp->d_name);
-                lama = temp->d_name;
-                if(lama[length-4] == '.' && lama[length-3] == 'p' && lama[length-2] == 'n' && lama[length-1] == 'g')
-                {
-                    strcpy(baru, "/home/maya/modul2/gambar/");
-                    strcat(baru, lama);
-                    length = strlen(baru);
-                    baru[length-4] = '\0';
-                    strcat(baru, "_grey.png");
-                    strcat(dirlama, lama);
-                    rename(dirlama, baru);
-                }
-        }
+      int length = strlen(temp->d_name);
+      lama = temp->d_name;
+      if(lama[length-4] == '.' && lama[length-3] == 'p' && lama[length-2] == 'n' && lama[length-1] == 'g')
+      {
+           strcpy(baru, "/home/maya/modul2/gambar/");
+           strcat(baru, lama);
+           length = strlen(baru);
+           baru[length-4] = '\0';
+           strcat(baru, "_grey.png");
+           strcat(dirlama, lama);
+           rename(dirlama, baru);
+       }
 }
 ```
 Contoh ilustrasi : <br>
@@ -116,7 +113,8 @@ Catatan:
 - Gunakan minimal 3 proses yang diakhiri dengan exec.
 - Gunakan pipe
 - Pastikan file daftar.txt dapat diakses dari text editor
-Langkah - langkah :
+
+Langkah - langkah :<br>
 unzip file dengan child proccess pertama, 
 ```
     if(child1 == 0){
@@ -162,17 +160,18 @@ else{
             }
 ```
 
-4. Dalam direktori /home/[user]/Documents/makanan terdapat file makan_enak.txt yang berisikan daftar makanan terkenal di Surabaya. Elen sedang melakukan diet dan seringkali tergiur untuk membaca isi makan_enak.txt karena ngidam makanan enak. Sebagai teman yang baik, Anda membantu Elen dengan membuat program C yang berjalan setiap 5 detik untuk memeriksa apakah file makan_enak.txt pernah dibuka setidaknya 30 detik yang lalu (rentang 0 - 30 detik).
+4. Dalam direktori /home/[user]/Documents/makanan terdapat file makan_enak.txt yang berisikan daftar makanan terkenal di Surabaya. Elen sedang melakukan diet dan seringkali tergiur untuk membaca isi makan_enak.txt karena ngidam makanan enak. Sebagai teman yang baik, Anda membantu Elen dengan membuat program C yang berjalan setiap 5 detik untuk memeriksa apakah file makan_enak.txt pernah dibuka setidaknya 30 detik yang lalu (rentang 0 - 30 detik).<br>
 Jika file itu pernah dibuka, program Anda akan membuat 1 file makan_sehat#.txt di direktori /home/[user]/Documents/makanan dengan '#' berisi bilangan bulat dari 1 sampai tak hingga untuk mengingatkan Elen agar berdiet.
 
-Contoh:
-File makan_enak.txt terakhir dibuka pada detik ke-1
+Contoh:<br>
+File makan_enak.txt terakhir dibuka pada detik ke-1<br>
 Pada detik ke-10 terdapat file makan_sehat1.txt dan makan_sehat2.txt
 
 Catatan: 
 - dilarang menggunakan crontab
 - Contoh nama file : makan_sehat1.txt, makan_sehat2.txt, dst
-Langkah - langkah :
+
+Langkah - langkah :<br>
 untuk mendapatkan waktu saat file di akses menggunakan :
 ```
     struct stat detail;
@@ -198,15 +197,16 @@ untuk membuat file makan_sehat#.txt ketika selisih waktunya <=30 detik adalah,
 
 ```
 
-5. Kerjakan poin a dan b di bawah:
+5. Kerjakan poin a dan b di bawah:<br>
 a. Buatlah program c untuk mencatat log setiap menit dari file log pada syslog ke /home/[user]/log/[dd:MM:yyyy-hh:mm]/log#.log
-Ket:
-Per 30 menit membuat folder /[dd:MM:yyyy-hh:mm]
-Per menit memasukkan log#.log ke dalam folder tersebut
-‘#’ : increment per menit. Mulai dari 1
-b. Buatlah program c untuk menghentikan program di atas.
+Ket:<br>
+Per 30 menit membuat folder /[dd:MM:yyyy-hh:mm]<br>
+Per menit memasukkan log#.log ke dalam folder tersebut<br>
+‘#’ : increment per menit. Mulai dari 1<br>
+b. Buatlah program c untuk menghentikan program di atas.<br>
 NB: Dilarang menggunakan crontab dan tidak memakai argumen ketika menjalankan program.
-Langkah - langkah :
+
+Langkah - langkah :<br>
 untuk mendapatkan waktu saat ini dan membuatnya dalam format yang diminta adalah,
 ```
         time_t timer = time(NULL);
