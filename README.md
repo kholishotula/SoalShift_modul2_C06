@@ -172,6 +172,31 @@ Pada detik ke-10 terdapat file makan_sehat1.txt dan makan_sehat2.txt
 Catatan: 
 - dilarang menggunakan crontab
 - Contoh nama file : makan_sehat1.txt, makan_sehat2.txt, dst
+Langkah - langkah :
+untuk mendapatkan waktu saat file di akses menggunakan :
+```
+    struct stat detail;
+    stat(nama, &detail); 
+```
+lalu untuk mendapatkan selisih antara waktu akses file dengan waktu saat ini adalah,
+```
+    long int diff = t - detail.st_atime;
+```
+untuk membuat file makan_sehat#.txt ketika selisih waktunya <=30 detik adalah,
+```
+    if(diff<=30){
+        int i = 1;
+        while(1){
+        char newname[500000]="makan_sehat.txt";
+        sprintf(newname,"makan_sehat%d.txt",i);
+        if(!(find=fopen(newname, "r"))){
+            FILE* makenew = fopen(newname,"w");
+            fclose(makenew);break;
+        }
+          i++;
+        }}
+
+```
 
 5. Kerjakan poin a dan b di bawah:
 a. Buatlah program c untuk mencatat log setiap menit dari file log pada syslog ke /home/[user]/log/[dd:MM:yyyy-hh:mm]/log#.log
@@ -181,4 +206,41 @@ Per menit memasukkan log#.log ke dalam folder tersebut
 ‘#’ : increment per menit. Mulai dari 1
 b. Buatlah program c untuk menghentikan program di atas.
 NB: Dilarang menggunakan crontab dan tidak memakai argumen ketika menjalankan program.
+Langkah - langkah :
+untuk mendapatkan waktu saat ini dan membuatnya dalam format yang diminta adalah,
+```
+        time_t timer = time(NULL);
+        strftime(dateTime, 20, "%d:%m:%Y-%H:%M", localtime(&timer));
+```
 
+untuk membuat folder,
+```
+        sprintf(dirfile,"/home/nandha/log/%s", dateTime);
+        mkdir(dirfile,ACCESSPERMS);
+```
+untuk membuat file log#.log didalam folder yang telah dibuat tersebut :
+```
+      sprintf(loglog, "/log%d.log.txt",i);
+      strcpy(filename,dirfile);
+      strcat(filename,loglog);
+      in = fopen(syslog, "r");
+      out = fopen(filename,"w+");
+     
+    while((fgets(isi,sizeof(isi),in))!=NULL) {
+        fputs(isi,out);
+    }
+    fclose(in);
+    fclose(out);
+```
+lalu program untuk menghentikan dari program diatas adalah, 
+```
+    FILE *getPIDS;
+    char line[130];
+    getPIDS = popen("pidof /home/nandha/Documents/soal5/soal5","r");
+    if(fgets(line,sizeof line,getPIDS)) {
+            int pid = atoi(line);
+            printf("KILL PID: %d\n",pid);
+            kill(pid,SIGKILL);
+    }
+
+```
